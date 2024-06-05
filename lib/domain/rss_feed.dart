@@ -72,34 +72,16 @@ class RssFeed {
       throw ArgumentError('channel not found');
     }
     return RssFeed(
-      title: channelElement.findElements('title').firstOrNull?.value,
-      author: channelElement.findElements('author').firstOrNull?.value,
-      description:
-          channelElement.findElements('description').firstOrNull?.value,
-      link: channelElement.findElements('link').firstOrNull?.value,
-      items: (rdf ?? channelElement)
-          .findElements('item')
-          .map((e) => RssItem.parse(e))
-          .toList(),
-      image: (rdf ?? channelElement)
-          .findElements('image')
-          .map((e) => RssImage.parse(e))
-          .firstOrNull,
-      cloud: channelElement
-          .findElements('cloud')
-          .map((e) => RssCloud.parse(e))
-          .firstOrNull,
-      categories: channelElement
-          .findElements('category')
-          .map((e) => RssCategory.parse(e))
-          .toList(),
-      skipDays: channelElement
-              .findElements('skipDays')
-              .firstOrNull
-              ?.findAllElements('day')
-              .map((e) => e.innerText)
-              .toList() ??
-          [],
+      title: channelElement.findElements('title').firstOrNull?.innerText,
+      author: channelElement.findElements('author').firstOrNull?.innerText,
+      description: channelElement.findElements('description').firstOrNull?.innerText,
+      link: channelElement.findElements('link').firstOrNull?.innerText,
+      items: (rdf ?? channelElement).findElements('item').map((e) => RssItem.parse(e)).toList(),
+      image: (rdf ?? channelElement).findElements('image').map((e) => RssImage.parse(e)).firstOrNull,
+      cloud: channelElement.findElements('cloud').map((e) => RssCloud.parse(e)).firstOrNull,
+      categories: channelElement.findElements('category').map((e) => RssCategory.parse(e)).toList(),
+      skipDays:
+          channelElement.findElements('skipDays').firstOrNull?.findAllElements('day').map((e) => e.innerText).toList() ?? [],
       skipHours: channelElement
               .findElements('skipHours')
               .firstOrNull
@@ -107,18 +89,15 @@ class RssFeed {
               .map((e) => int.tryParse(e.value ?? '') ?? 0)
               .toList() ??
           [],
-      lastBuildDate:
-          channelElement.findElements('lastBuildDate').firstOrNull?.value,
-      language: channelElement.findElements('language').firstOrNull?.value,
-      generator: channelElement.findElements('generator').firstOrNull?.value,
-      copyright: channelElement.findElements('copyright').firstOrNull?.value,
-      docs: channelElement.findElements('docs').firstOrNull?.value,
-      managingEditor:
-          channelElement.findElements('managingEditor').firstOrNull?.value,
-      rating: channelElement.findElements('rating').firstOrNull?.value,
-      webMaster: channelElement.findElements('webMaster').firstOrNull?.value,
-      ttl: int.tryParse(
-          channelElement.findElements('ttl').firstOrNull?.value ?? '0'),
+      lastBuildDate: channelElement.findElements('lastBuildDate').firstOrNull?.innerText,
+      language: channelElement.findElements('language').firstOrNull?.innerText,
+      generator: channelElement.findElements('generator').firstOrNull?.innerText,
+      copyright: channelElement.findElements('copyright').firstOrNull?.innerText,
+      docs: channelElement.findElements('docs').firstOrNull?.innerText,
+      managingEditor: channelElement.findElements('managingEditor').firstOrNull?.innerText,
+      rating: channelElement.findElements('rating').firstOrNull?.innerText,
+      webMaster: channelElement.findElements('webMaster').firstOrNull?.innerText,
+      ttl: int.tryParse(channelElement.findElements('ttl').firstOrNull?.innerText ?? '0'),
       dc: DublinCore.parse(channelElement),
       itunes: Itunes.parse(channelElement),
       syndication: Syndication.parse(channelElement),

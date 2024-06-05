@@ -47,53 +47,28 @@ class Itunes {
   });
 
   factory Itunes.parse(XmlElement element) {
-    final episodeStr =
-        element.findElements('itunes:episode').firstOrNull?.value ?? '';
-    final seasonStr =
-        element.findElements('itunes:season').firstOrNull?.value ?? '';
-    final durationStr =
-        element.findElements('itunes:duration').firstOrNull?.value ?? '';
+    final episodeStr = element.findElements('itunes:episode').firstOrNull?.innerText ?? '';
+    final seasonStr = element.findElements('itunes:season').firstOrNull?.innerText ?? '';
+    final durationStr = element.findElements('itunes:duration').firstOrNull?.innerText ?? '';
     return Itunes(
-      author: element.findElements('itunes:author').firstOrNull?.value,
-      summary: element.findElements('itunes:summary').firstOrNull?.value,
+      author: element.findElements('itunes:author').firstOrNull?.innerText,
+      summary: element.findElements('itunes:summary').firstOrNull?.innerText,
       explicit: parseBoolLiteral(element, 'itunes:explicit'),
-      title: element.findElements('itunes:title').firstOrNull?.value,
-      subtitle: element.findElements('itunes:subtitle').firstOrNull?.value,
-      owner: element
-          .findElements('itunes:owner')
-          .map((e) => ItunesOwner.parse(e))
-          .firstOrNull,
-      keywords: element
-              .findElements('itunes:keywords')
-              .firstOrNull
-              ?.value
-              ?.split(',')
-              .map((keyword) => keyword.trim())
-              .toList() ??
-          [],
-      image: element
-          .findElements('itunes:image')
-          .map((e) => ItunesImage.parse(e))
-          .firstOrNull,
-      categories: element
-          .findElements('itunes:category')
-          .map((e) => ItunesCategory.parse(e))
-          .toList(),
-      type: element
-          .findElements('itunes:type')
-          .map((e) => newItunesType(e))
-          .firstOrNull,
-      newFeedUrl:
-          element.findElements('itunes:new-feed-url').firstOrNull?.value,
+      title: element.findElements('itunes:title').firstOrNull?.innerText,
+      subtitle: element.findElements('itunes:subtitle').firstOrNull?.innerText,
+      owner: element.findElements('itunes:owner').map((e) => ItunesOwner.parse(e)).firstOrNull,
+      keywords:
+          element.findElements('itunes:keywords').firstOrNull?.value?.split(',').map((keyword) => keyword.trim()).toList() ?? [],
+      image: element.findElements('itunes:image').map((e) => ItunesImage.parse(e)).firstOrNull,
+      categories: element.findElements('itunes:category').map((e) => ItunesCategory.parse(e)).toList(),
+      type: element.findElements('itunes:type').map((e) => newItunesType(e)).firstOrNull,
+      newFeedUrl: element.findElements('itunes:new-feed-url').firstOrNull?.innerText,
       block: parseBoolLiteral(element, 'itunes:block'),
       complete: parseBoolLiteral(element, 'itunes:complete'),
       episode: episodeStr.isNotEmpty ? int.tryParse(episodeStr) : null,
       season: seasonStr.isNotEmpty ? int.tryParse(seasonStr) : null,
       duration: durationStr.isNotEmpty ? _parseDuration(durationStr) : null,
-      episodeType: element
-          .findElements('itunes:episodeType')
-          .map((e) => newItunesEpisodeType(e))
-          .firstOrNull,
+      episodeType: element.findElements('itunes:episodeType').map((e) => newItunesEpisodeType(e)).firstOrNull,
     );
   }
 

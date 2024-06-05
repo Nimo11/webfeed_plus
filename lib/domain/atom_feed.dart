@@ -47,38 +47,19 @@ class AtomFeed {
     }
 
     return AtomFeed(
-      id: feedElement.findElements('id').firstOrNull?.value,
-      title: feedElement.findElements('title').firstOrNull?.value,
-      updated:
-          parseDateTime(feedElement.findElements('updated').firstOrNull?.value),
-      items: feedElement
-          .findElements('entry')
-          .map((e) => AtomItem.parse(e))
-          .toList(),
-      links: feedElement
-          .findElements('link')
-          .map((e) => AtomLink.parse(e))
-          .toList(),
-      authors: feedElement
-          .findElements('author')
-          .map((e) => AtomPerson.parse(e))
-          .toList(),
-      contributors: feedElement
-          .findElements('contributor')
-          .map((e) => AtomPerson.parse(e))
-          .toList(),
-      categories: feedElement
-          .findElements('category')
-          .map((e) => AtomCategory.parse(e))
-          .toList(),
-      generator: feedElement
-          .findElements('generator')
-          .map((e) => AtomGenerator.parse(e))
-          .firstOrNull,
-      icon: feedElement.findElements('icon').firstOrNull?.value,
-      logo: feedElement.findElements('logo').firstOrNull?.value,
-      rights: feedElement.findElements('rights').firstOrNull?.value,
-      subtitle: feedElement.findElements('subtitle').firstOrNull?.value,
+      id: feedElement.findElements('id').firstOrNull?.innerText,
+      title: feedElement.findElements('title').firstOrNull?.innerText,
+      updated: parseDateTime(feedElement.findElements('updated').firstOrNull?.innerText),
+      items: feedElement.findElements('entry').map((e) => AtomItem.parse(e)).toList(),
+      links: feedElement.findElements('link').map((e) => AtomLink.parse(e)).toList(),
+      authors: feedElement.findElements('author').map((e) => AtomPerson.parse(e)).toList(),
+      contributors: feedElement.findElements('contributor').map((e) => AtomPerson.parse(e)).toList(),
+      categories: feedElement.findElements('category').map((e) => AtomCategory.parse(e)).toList(),
+      generator: feedElement.findElements('generator').map((e) => AtomGenerator.parse(e)).firstOrNull,
+      icon: feedElement.findElements('icon').firstOrNull?.innerText,
+      logo: feedElement.findElements('logo').firstOrNull?.innerText,
+      rights: feedElement.findElements('rights').firstOrNull?.innerText,
+      subtitle: feedElement.findElements('subtitle').firstOrNull?.innerText,
     );
   }
 }
